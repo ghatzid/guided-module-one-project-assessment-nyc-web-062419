@@ -1,4 +1,4 @@
 class Hobbies < ActiveRecord::Base
   has_many :users
-  has_many :celebrities
+  has_many :users, through: :user_hobby
 end
