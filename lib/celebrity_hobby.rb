@@ -1,3 +1,3 @@
 class CelebrityHobby < ActiveRecord::Base
-  has_many :hobbies
+  has_many :hobbys
 end
