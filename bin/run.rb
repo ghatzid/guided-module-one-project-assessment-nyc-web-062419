@@ -1,3 +1,3 @@
 require_relative '../config/environment'
 
-puts "hello world"
+puts "Hi there, welcome to DYMAC, curious to see which celebrities you share hobbies with?"
