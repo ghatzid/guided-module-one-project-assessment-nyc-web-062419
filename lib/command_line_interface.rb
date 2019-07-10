@@ -5,18 +5,27 @@ class CommandLineInterface
   def greet
     # GREETS THE USER
     system("clear")
+    puts "     8888888b.   Y88b   d88P  888b     d888         d8888   .d8888b."
+    puts "     888   Y88b   Y88b d88P   8888b   d8888        d88888  d88P  Y88b"
+    puts "     888    888    Y88o88P    88888b.d88888       d88P888  888    888" 
+    puts "     888    888     Y888P     888Y88888P888      d88P 888  888        "
+    puts "     888    888      888      888 Y888P 888     d88P  888  888        "
+    puts "     888    888      888      888  Y8P  888    d88P   888  888    888 "
+    puts "     888  .d88P      888      888       888   d8888888888  Y88b  d88P "
+    puts "     8888888P'       888      888       888  d88P     888   'Y8888P'  "
+    puts "\n"
     puts "Hi there, welcome to DYMAC, curious to see which celebrities you match with?"
     initial_question
   end
 
   def initial_question
     # WELCOMING MESSAGE
-    puts "(y)es or (n)o?"
-    initial_answer = gets.chomp
-    if initial_answer == "y"
+    puts "(y)es or (n)o?" #### change this to yes or no? and all invalide answers
+    initial_answer = gets.chomp.downcase
+    if initial_answer[0] == "y" && initial_answer.length <= 3
       # CALLS ON METHOD TO GET AND SAVE USERS NAME
-      name_prompt
-    elsif initial_answer == "n"
+      returning_user
+    elsif initial_answer[0] == "n" && initial_answer.length <= 2
       puts "Goodbye"
       sleep 1
       exit
@@ -26,43 +35,53 @@ class CommandLineInterface
     end
   end
 
+  def returning_user
+    puts "Do you already have an account? /n (y)es or (n)"
+    inp = gets.chomp
+    if inp == "n"
+      name_prompt
+    elsif inp == "y"
+      find_user
+    else
+      invalid_response("y or n", "third")
+    end
+  end
+
   def invalid_response(string_with_valid_response, source)
-    # IF USER SELECTS n WE WILL EXIT THE SESSION
     puts "Please respond with #{string_with_valid_response}."
     sleep 2
     if source == "first"
       greet
-      elsif source == "second"
-        interest_prompt
-      end
+    elsif source == "second"
+      interest_prompt
+    elsif source == "third"
+      returning_user
+    end
   end
 
   def name_prompt
     # TO GET AND SAVE USERS NAME
     puts "Please enter your name:"
     user_name_input = gets.chomp
-    ### !!! SHOULD MAYBE CALL A METHOD TO REFER BACK TO THIS USER INSTANCE !!!
     @user = User.create_new_user(user_name_input)
-    interest_prompt
+    puts "Please enter your Age:" #DOB (mm/dd/yyyy)
+    user_age = gets.chomp
+    @user.age = user_age
+    @user.user_options
   end
 
   def interest_prompt
-    
     array = []
     5.times do
       array.push(Interest.all.sample)
     end  
-
-
-
-    puts "Type a number to chose an Interest"
-    
+    puts "Type a number to chose an Interest"    
     puts "1. #{array[0].interest_names}"
     puts "2. #{array[1].interest_names}"
     puts "3. #{array[2].interest_names}"
     puts "4. #{array[3].interest_names}"
     puts "5. #{array[4].interest_names}"
-    
+    puts 'hit "m" for more choices'
     inp = gets.chomp
     case inp
     when "1" 
@@ -80,8 +99,15 @@ class CommandLineInterface
       invalid_response("a number from the list", "second")
     end
     matchmaker
+  end 
+
+  def find_user
+    puts "What is your name?"
+    inp = gets.chomp
+    @current_user = User.all.find {|x| x.name == inp}
+    user_options
   end
-  
+
   def matchmaker
     results = []
     puts "You are now being matched.  Please Wait..."

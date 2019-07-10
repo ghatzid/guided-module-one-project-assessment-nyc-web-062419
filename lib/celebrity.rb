@@ -8,9 +8,9 @@ class Celebrity < ActiveRecord::Base
 
   def list_info
     puts "
-    Name: #{self.name}\n
-    Age: #{self.age}\n
-    Known For: #{self.known_for}\n
-    Interests: #{self.interests[0].interest_names}\n"
+    Name: #{self.name}
+    Age: #{self.age}
+    Known For: #{self.known_for}
+    Interests: #{self.interests[0].interest_names}    <-- OMG SAME AS YOURS!!<3<3<3"
   end
 end
