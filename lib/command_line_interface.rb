@@ -33,7 +33,7 @@ class CommandLineInterface
     if source == "first"
       greet
       elsif source == "second"
-        hobby_prompt
+        interest_prompt
       end
   end
 
@@ -41,32 +41,40 @@ class CommandLineInterface
     # TO GET AND SAVE USERS NAME
     puts "Please enter your name:"
     user_name_input = gets.chomp
-    # user_name_input.downcase = user_name
     ### !!! SHOULD MAYBE CALL A METHOD TO REFER BACK TO THIS USER INSTANCE !!!
-    user_name = User.new(name: "#{user_name_input}")
-    hobby_prompt
+    @user = User.create_new_user(user_name_input)
+    interest_prompt
   end
 
-  def hobby_prompt
-    puts "Please chose a Hobby"
-    puts "1." # LIST HOBBIES AT RANDOM !!!!!!!!!!!!!!!!!!!!!!!!!!!
-    puts "2." # number could be the hobby_id
-    puts "3." # that way we can call that number
-    puts "4." # and save that to the user
-    puts "5."
+  def interest_prompt
+    
+    array = []
+    5.times do
+      array.push(Interest.all.sample)
+    end  
 
+
+
+    puts "Type a number to chose an Interest"
+    
+    puts "1. #{array[0].interest_names}"
+    puts "2. #{array[1].interest_names}"
+    puts "3. #{array[2].interest_names}"
+    puts "4. #{array[3].interest_names}"
+    puts "5. #{array[4].interest_names}"
+    
     inp = gets.chomp
     case inp
     when "1" 
-      self.user_hobby.hobby = hobby
+      @user.interest_ids = array[0].id
     when "2"
-      self.user_hobby.hobby = hobby
+      @user.interest_ids = array[1].id
     when "3"
-      self.user_hobby.hobby = hobby
+      @user.interest_ids = array[2].id
     when "4"
-      self.user_hobby.hobby = hobby
+      @user.interest_ids = array[3].id
     when "5"
-      self.user_hobby.hobby = hobby
+      @user.interest_ids = array[4].id
     else
       puts "#{inp} is not a valid answer"
       invalid_response("a number from the list", "second")

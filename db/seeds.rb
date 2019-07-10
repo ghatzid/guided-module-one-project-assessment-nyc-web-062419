@@ -1,4 +1,3 @@
-
 User.create(name: "Melissa")
 User.create(name: "April")
 User.create(name: "Luke")
