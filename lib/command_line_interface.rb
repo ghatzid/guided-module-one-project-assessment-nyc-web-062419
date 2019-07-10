@@ -87,7 +87,7 @@ class CommandLineInterface
     puts "You are now being matched.  Please Wait..."
     results = Celebrity.all.select {|celeb| celeb.interest_ids[0] == @user.interest_ids[0]}
     puts "Here are your matches!"
-    results.each {|x| puts "#{x.name}"}
+    results.each {|x| x.list_info}
   end
 
 end
