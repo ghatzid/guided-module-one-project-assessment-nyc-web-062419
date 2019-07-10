@@ -1,4 +1,4 @@
 class User < ActiveRecord::Base
-  has_many :user_hobbys
-  has_many :hobbys, through: :user_hobbys
+  has_many :user_interests
+  has_many :interests, through: :user_interests
 end

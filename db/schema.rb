@@ -18,13 +18,13 @@ ActiveRecord::Schema.define(version: 9) do
     t.string "known_for"
   end
 
-  create_table "hobbys", force: :cascade do |t|
-    t.string "hobbys_name"
+  create_table "interests", force: :cascade do |t|
+    t.string "interest_names"
   end
 
-  create_table "user_hobbys", force: :cascade do |t|
-    t.integer "hobbys_id"
-    t.integer "users_id"
+  create_table "user_interests", force: :cascade do |t|
+    t.integer "interest_id"
+    t.integer "user_id"
   end
 
   create_table "users", force: :cascade do |t|
