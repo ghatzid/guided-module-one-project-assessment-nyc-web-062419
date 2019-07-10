@@ -11,8 +11,8 @@ class User < ActiveRecord::Base
     puts "1. View your profile"
     puts "2. Add interests to your profile" #calls interest_prompt
     puts "3. View your matches" ### calls matchmaker
-    puts "4. Delete your profile" #### delete profile method
-    puts "5. Exit" #deletes profile and exits
+    puts "4. Delete your profile"
+    puts "5. Exit"
     inp = gets.chomp
     case inp
       when "1" 
@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
       when "3"
         matchmaker #Get matchmaker running here
       when "4"
-        
+        delete_user
       when "5"
         exit
       else
@@ -47,6 +47,13 @@ class User < ActiveRecord::Base
     results = Celebrity.all.select {|celeb| celeb.interest_ids[0] == @user.interest_ids[0]}
     puts "Here are your matches!"
     results.each {|x| x.list_info}
+  end
+
+  def delete_user
+    self.destroy
+    puts "Your profile has been deleted"
+    sleep 2
+    exit
   end
 
 end
