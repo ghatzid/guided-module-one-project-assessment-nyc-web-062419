@@ -79,6 +79,15 @@ class CommandLineInterface
       puts "#{inp} is not a valid answer"
       invalid_response("a number from the list", "second")
     end
+    matchmaker
   end
   
+  def matchmaker
+    results = []
+    puts "You are now being matched.  Please Wait..."
+    results = Celebrity.all.select {|celeb| celeb.interest_ids[0] == @user.interest_ids[0]}
+    puts "Here are your matches!"
+    results.each {|x| puts "#{x.name}"}
+  end
+
 end
