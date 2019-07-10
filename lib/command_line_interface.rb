@@ -19,11 +19,9 @@ class CommandLineInterface
   end
 
   def initial_question
-    # WELCOMING MESSAGE
-    puts "(y)es or (n)o?" #### change this to yes or no? and all invalide answers
+    puts "(y)es or (n)o?"
     initial_answer = gets.chomp.downcase
     if initial_answer[0] == "y" && initial_answer.length <= 3
-      # CALLS ON METHOD TO GET AND SAVE USERS NAME
       returning_user
     elsif initial_answer[0] == "n" && initial_answer.length <= 2
       puts "Goodbye"
@@ -38,9 +36,9 @@ class CommandLineInterface
   def returning_user
     puts "Do you already have an account? /n (y)es or (n)"
     inp = gets.chomp
-    if inp == "n"
+    if inp[0] == "n" && inp.length <= 2
       name_prompt
-    elsif inp == "y"
+    elsif inp[0] == "y" && inp.length <= 3
       find_user
     else
       invalid_response("y or n", "third")
@@ -60,7 +58,6 @@ class CommandLineInterface
   end
 
   def name_prompt
-    # TO GET AND SAVE USERS NAME
     puts "Please enter your name:"
     user_name_input = gets.chomp
     @user = User.create_new_user(user_name_input)
@@ -84,36 +81,29 @@ class CommandLineInterface
     puts 'hit "m" for more choices'
     inp = gets.chomp
     case inp
-    when "1" 
-      @user.interest_ids = array[0].id
-    when "2"
-      @user.interest_ids = array[1].id
-    when "3"
-      @user.interest_ids = array[2].id
-    when "4"
-      @user.interest_ids = array[3].id
-    when "5"
-      @user.interest_ids = array[4].id
-    else
-      puts "#{inp} is not a valid answer"
-      invalid_response("a number from the list", "second")
+      when "1" 
+        @user.interest_ids = array[0].id
+      when "2"
+        @user.interest_ids = array[1].id
+      when "3"
+        @user.interest_ids = array[2].id
+      when "4"
+        @user.interest_ids = array[3].id
+      when "5"
+        @user.interest_ids = array[4].id
+      else
+        puts "#{inp} is not a valid answer"
+        invalid_response("a number from the list", "second")
     end
-    matchmaker
   end 
 
   def find_user
     puts "What is your name?"
     inp = gets.chomp
-    @current_user = User.all.find {|x| x.name == inp}
-    user_options
+    @user = User.all.find {|x| x.name == inp}
+    @user.user_options
   end
 
-  def matchmaker
-    results = []
-    puts "You are now being matched.  Please Wait..."
-    results = Celebrity.all.select {|celeb| celeb.interest_ids[0] == @user.interest_ids[0]}
-    puts "Here are your matches!"
-    results.each {|x| x.list_info}
-  end
+  
 
 end
