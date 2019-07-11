@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
     User.create(name: name)
   end
 
-  def user_options
+  def main_menu
     puts "Please choose from the following options:"
     puts "1. View your profile"
     puts "2. Add interests to your profile" #calls interest_prompt
@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
     inp = gets.chomp
     case inp
       when "1" 
-        list_info
+        list_user_info
       when "2"
         interest_prompt #Bring over user prompt to user class
       when "3"
@@ -31,13 +31,13 @@ class User < ActiveRecord::Base
     end
   end
 
-  def list_info
+  def list_user_info
     puts "
     Name: #{self.name}
     Age: #{self.age}
     Interests: #{self.interests.map {|x| x.interest_names}}"
     sleep 3
-    user_options
+   main_menu
   end
 
   def interest_prompt
@@ -55,15 +55,15 @@ class User < ActiveRecord::Base
     inp = gets.chomp
     case inp
       when "1" 
-        @user.interest_ids = array[0].id
+        self.interest_ids = array[0].id
       when "2"
-        @user.interest_ids = array[1].id
+        self.interest_ids = array[1].id
       when "3"
-        @user.interest_ids = array[2].id
+        self.interest_ids = array[2].id
       when "4"
-        @user.interest_ids = array[3].id
+        self.interest_ids = array[3].id
       when "5"
-        @user.interest_ids = array[4].id
+        self.interest_ids = array[4].id
       else
         puts "#{inp} is not a valid answer"
         invalid_response("a number from the list", "second")
@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
     # ADD FEATURE FOR MANY INTERESTS IN THE ARRAY
     results = Celebrity.all.select {|celeb| celeb.interest_ids[0] == @user.interest_ids[0]}
     puts "Here are your matches!"
-    results.each {|x| x.list_info}
+    results.each {|x| x.list_user_info}
   end
 
   def delete_user
