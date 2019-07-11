@@ -1,74 +1,40 @@
 class User < ActiveRecord::Base
   has_many :user_interests
   has_many :interests, through: :user_interests
-  
+  @@cli = CommandLineInterface.new
+  @@user = {}
   def self.create_new_user(name)
     User.create(name: name)
   end
-
-  def user_options
-    puts "Please choose from the following options:"
-    puts "1. View your profile"
-    puts "2. Add interests to your profile" #calls interest_prompt
-    puts "3. View your matches" ### calls matchmaker
-    puts "4. Delete your profile"
-    puts "5. Exit"
-    inp = gets.chomp
-    case inp
-      when "1" 
-        list_info
-      when "2"
-        interest_prompt #Bring over user prompt to user class
-      when "3"
-        matchmaker #Get matchmaker running here
-      when "4"
-        delete_user
-      when "5"
-        exit
-      else
-        puts "#{inp} is not a valid answer"
-        invalid_response("a number from the list", "second")
+  
+  def age_prompt
+  puts "Please enter your Age:" #DOB (mm/dd/yyyy)
+  user_age = gets.to_i
+    if user_age == 0 || user_age > 120
+      puts "that's not a valid number!"
+      age_prompt
+    else
+      self.age = user_age
+      self.main_menu
     end
   end
 
-  def list_info
+  def view_user_profile
     puts "
     Name: #{self.name}
     Age: #{self.age}
     Interests: #{self.interests.map {|x| x.interest_names}}"
     sleep 3
-    user_options
+    main_menu
+  end
+  
+  def User.find_user
+    puts "What is your name?"
+    inp = gets.chomp
+    @user = User.all.find {|x| x.name == inp}
+    #what if no user is found?
   end
 
-  def interest_prompt
-    array = []
-    5.times do
-      array.push(Interest.all.sample)
-    end  
-    puts "Type a number to chose an Interest"    
-    puts "1. #{array[0].interest_names}"
-    puts "2. #{array[1].interest_names}"
-    puts "3. #{array[2].interest_names}"
-    puts "4. #{array[3].interest_names}"
-    puts "5. #{array[4].interest_names}"
-    puts 'hit "m" for more choices'
-    inp = gets.chomp
-    case inp
-      when "1" 
-        @user.interest_ids = array[0].id
-      when "2"
-        @user.interest_ids = array[1].id
-      when "3"
-        @user.interest_ids = array[2].id
-      when "4"
-        @user.interest_ids = array[3].id
-      when "5"
-        @user.interest_ids = array[4].id
-      else
-        puts "#{inp} is not a valid answer"
-        invalid_response("a number from the list", "second")
-    end
-  end 
 
   def matchmaker
     results = []
