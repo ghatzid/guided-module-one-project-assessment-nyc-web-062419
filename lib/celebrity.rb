@@ -6,7 +6,7 @@ class Celebrity < ActiveRecord::Base
     Celebrity.all.map {|celeb| celeb.interest_ids = rand(1..499)}
   end
 
-  def list_info
+  def list_celebrity_info
     puts "
     Name: #{self.name}
     Age: #{self.age}

@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   end
 
   def main_menu
+    CommandLineInterface.logo
     puts "Please choose from the following options:"
     puts "1. View your profile"
     puts "2. Add interests to your profile" #calls interest_prompt
@@ -26,8 +27,8 @@ class User < ActiveRecord::Base
       when "5"
         exit
       else
-        puts "#{inp} is not a valid answer"
-        invalid_response("a number from the list", "second")
+        puts "#{inp} is not a valid answer\n"
+        main_menu
     end
   end
 
@@ -36,9 +37,15 @@ class User < ActiveRecord::Base
     Name: #{self.name}
     Age: #{self.age}
     Interests: #{self.interests.map {|x| x.interest_names}}"
-    sleep 3
-   main_menu
+    puts 'hit "r" to return to main menu'
+    inp = gets.chomp
+    case inp
+    when "r" 
+      main_menu
+    end
   end
+
+  
 
   def interest_prompt
     array = []
@@ -52,10 +59,12 @@ class User < ActiveRecord::Base
     puts "4. #{array[3].interest_names}"
     puts "5. #{array[4].interest_names}"
     puts 'hit "m" for more choices'
+    puts 'hit "r" to return to main menu'
+
     inp = gets.chomp
     case inp
       when "1" 
-        self.interest_ids = array[0].id
+        self.interest_ids = array[0].id ## add push
       when "2"
         self.interest_ids = array[1].id
       when "3"
@@ -64,19 +73,26 @@ class User < ActiveRecord::Base
         self.interest_ids = array[3].id
       when "5"
         self.interest_ids = array[4].id
+      when "m"
+        interest_prompt
+      when "r"
+        main_menu
       else
         puts "#{inp} is not a valid answer"
-        invalid_response("a number from the list", "second")
+        interest_prompt ### should be able to save options
     end
+    main_menu
   end 
 
   def matchmaker
     results = []
     puts "You are now being matched.  Please Wait..."
     # ADD FEATURE FOR MANY INTERESTS IN THE ARRAY
-    results = Celebrity.all.select {|celeb| celeb.interest_ids[0] == @user.interest_ids[0]}
+    # binding.pry
+    results = Celebrity.all.select{|celeb| celeb.interest_ids[0] == self.interest_ids[0]}
     puts "Here are your matches!"
-    results.each {|x| x.list_user_info}
+    # binding.pry
+    results.each {|x| x.list_celebrity_info}
   end
 
   def delete_user

@@ -2,16 +2,16 @@ require_relative '../config/environment'
 
 class CommandLineInterface
 
-  def logo
+  def self.logo
     system("clear")
-    puts "8888888b.   Y88b   d88P  888b     d888         d8888   .d8888b."
-    puts "888   Y88b   Y88b d88P   8888b   d8888        d88888  d88P  Y88b"
-    puts "888    888    Y88o88P    88888b.d88888       d88P888  888    888" 
-    puts "888    888     Y888P     888Y88888P888      d88P 888  888        "
-    puts "888    888      888      888 Y888P 888     d88P  888  888        "
-    puts "888    888      888      888  Y8P  888    d88P   888  888    888 "
-    puts "888  .d88P      888      888       888   d8888888888  Y88b  d88P "
-    puts "8888888P'       888      888       888  d88P     888   'Y8888P'  "
+    puts "8888888b.   Y88b   d88P  888b     d888         d8888   .d8888b.".light_red
+    puts "888   Y88b   Y88b d88P   8888b   d8888        d88888  d88P  Y88b".light_red
+    puts "888    888    Y88o88P    88888b.d88888       d88P888  888    888" .light_red
+    puts "888    888     Y888P     888Y88888P888      d88P 888  888        ".light_red
+    puts "888    888      888      888 Y888P 888     d88P  888  888        ".light_red
+    puts "888    888      888      888  Y8P  888    d88P   888  888    888 ".light_red
+    puts "888  .d88P      888      888       888   d8888888888  Y88b  d88P ".light_red
+    puts "8888888P'       888      888       888  d88P     888   'Y8888P'  ".light_red
     puts "\n"
   end
   
@@ -32,7 +32,7 @@ class CommandLineInterface
   end
 
   def user_login
-    puts "Do you already have an account? /n (y)es or (n)"
+    puts "Do you already have an account? \n(y)es or (n)"
     inp = gets.chomp
     if inp[0] == "n" && inp.length <= 2
       name_prompt
@@ -44,7 +44,7 @@ class CommandLineInterface
   end
 
   def name_prompt
-    logo
+    CommandLineInterface.logo
     puts "Please enter your name:"
     user_name_input = gets.chomp
     @user = User.create_new_user(user_name_input)
@@ -65,7 +65,7 @@ class CommandLineInterface
   end
   
   def find_user
-    logo
+    CommandLineInterface.logo
     puts "What is your name?"
     inp = gets.chomp
     if User.all.find {|x| x.name == inp}

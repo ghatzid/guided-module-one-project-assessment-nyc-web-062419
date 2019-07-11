@@ -2,5 +2,5 @@ require_relative '../config/environment'
 
 
 cli = CommandLineInterface.new
-cli.logo
+CommandLineInterface.logo
 cli.initial_question
