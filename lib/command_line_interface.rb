@@ -12,11 +12,13 @@ class CommandLineInterface
     puts "888    888      888      888  Y8P  888    d88P   888  888    888 ".light_red
     puts "888  .d88P      888      888       888   d8888888888  Y88b  d88P ".light_red
     puts "8888888P'       888      888       888  d88P     888   'Y8888P'  ".light_red
-    puts "\t(Do \tYou \tMatch \tA \tCelebrity?)\n".light_red 
+    puts        "\t\t   (DO YOU MATCH A CELEBRITY?) \n\n"
+    # puts "  DO            YOU          MATCH            A       CELEBRITY?\n".light_yellow
   end
   
   def initial_question
-    puts "Hi there, welcome to DYMAC, curious to see which celebrities you match with?"
+    puts "Hi there, welcome to DYMAC.  Would you like to see which celebrities you share"
+    puts "common interests/hobbies with?"
     puts "(y)es or (n)o?"
     inp = gets.chomp.downcase
     if inp[0] == "y" && inp.length <= 3
@@ -27,12 +29,12 @@ class CommandLineInterface
       exit
     else
       puts "#{inp} is not a valid answer"
-      invalid_response("y or n")
+      invalid_response("y or n\n")
     end
   end
 
   def user_login
-    puts "Do you already have an account? \n(y)es or (n)"
+    puts "Do you already have an account? \n(y)es or (n)o"
     inp = gets.chomp
     if inp[0] == "n" && inp.length <= 2
       name_prompt

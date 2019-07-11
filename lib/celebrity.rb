@@ -9,7 +9,7 @@ class Celebrity < ActiveRecord::Base
   def list_celebrity_info
     puts "
     Name: #{self.name}
-    Age: #{self.age}
+    Age: #{Date.parse(DateTime.now.to_s).year - Date.parse(self.age.to_s).year}
     Known For: #{self.known_for}
     Interests: #{self.interests[0].interest_names}    <-- OMG SAME AS YOURS!!<3<3<3"
   end

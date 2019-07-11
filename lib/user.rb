@@ -75,7 +75,7 @@ class User < ActiveRecord::Base
       when "r"
         main_menu
       else
-        puts "#{inp} is not a valid answer"
+        puts "#{inp} is not a valid answer\n"
         interest_prompt ### should be able to save options
     end
     main_menu
@@ -87,19 +87,34 @@ class User < ActiveRecord::Base
     # ADD FEATURE FOR MANY INTERESTS IN THE ARRAY
     # binding.pry
     results = Celebrity.all.select{|celeb| celeb.interest_ids[0] == self.interest_ids[0]}
-    puts "Here are your matches!"
-    # binding.pry
+    if results == []
+      puts "Sorry, nobody famous shares your strange interests.."
+    else
+      puts "Here are your matches!"      
     results.each {|x| x.list_celebrity_info}
+    end
     puts "Enter any key to return to main menu"
     gets.chomp
     main_menu
   end
 
   def delete_user
-    self.destroy
-    puts "Your profile has been deleted"
-    sleep 2
-    exit
+    puts "WARNING! This will delete your account permanently"
+    puts "Are you sure you wish to do this?"
+    puts "(y)es or (n)o?\n"
+    inp = gets.chomp
+    if inp[0] == "n" && inp.length <= 2
+      main_menu
+    elsif inp[0] == "y" && inp.length <= 3
+      self.destroy
+      puts "Your profile has been deleted. Goodbye!\n"
+      sleep 2
+      exit
+    else
+      puts "#{inp} is not a valid answer\n"
+      delete_user
+    end
+    
   end
 
 end
