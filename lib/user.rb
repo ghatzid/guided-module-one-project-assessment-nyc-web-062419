@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
     # binding.pry
     results = Celebrity.all.select{|celeb| celeb.interest_ids[0] == self.interest_ids[0]}
     if results == []
-      puts "Sorry, nobody famous shares your strange interests.."
+      puts "Sorry, nobody famous shares your strange interests..\n"
     else
       puts "Here are your matches!"      
     results.each {|x| x.list_celebrity_info}
