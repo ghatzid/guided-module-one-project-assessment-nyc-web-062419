@@ -27,7 +27,6 @@ class CommandLineInterface
       sleep 1
       exit
     else
-      
       invalid_response("y or n")
       initial_question
     end
@@ -37,7 +36,7 @@ class CommandLineInterface
     puts "Do you already have an account? \n(y)es or (n)"
     inp = gets.chomp
     if inp[0] == "n" && inp.length <= 2
-      name_prompt
+      User.name_prompt
     elsif inp[0] == "y" && inp.length <= 3
       User.find_user
     else
@@ -55,9 +54,10 @@ class CommandLineInterface
     puts "4. Delete your profile"
     puts "5. Exit"
     inp = gets.chomp
+    # binding.pry
     case inp
     when "1" 
-      @user.view_user_profile
+      view_user_profile
     when "2"
       interest_prompt #Bring over user prompt to user class
     when "3"
@@ -72,11 +72,13 @@ class CommandLineInterface
     end
   end
   
-  def name_prompt
-    puts "Please enter your name:"
-    user_name_input = gets.chomp
-    @user = User.create_new_user(user_name_input)
-    @user.age_prompt
+  def view_user_profile
+    puts "
+    Name: #{@user.name}
+    Age: #{self.age}
+    Interests: #{self.interests.map {|x| x.interest_names}}"
+    sleep 3
+    main_menu
   end
 
   def interest_prompt
@@ -124,4 +126,5 @@ class CommandLineInterface
     # system("clear")
   end
   
+
 end
