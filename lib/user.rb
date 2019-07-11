@@ -37,12 +37,9 @@ class User < ActiveRecord::Base
     Name: #{self.name}
     Age: #{self.age}
     Interests: #{self.interests.map {|x| x.interest_names}}"
-    puts 'hit "r" to return to main menu'
-    inp = gets.chomp
-    case inp
-    when "r" 
-      main_menu
-    end
+    puts "Enter any key to return to main menu"
+    gets.chomp
+    main_menu
   end
 
   
@@ -93,6 +90,9 @@ class User < ActiveRecord::Base
     puts "Here are your matches!"
     # binding.pry
     results.each {|x| x.list_celebrity_info}
+    puts "Enter any key to return to main menu"
+    gets.chomp
+    main_menu
   end
 
   def delete_user
