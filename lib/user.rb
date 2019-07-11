@@ -40,6 +40,36 @@ class User < ActiveRecord::Base
     user_options
   end
 
+  def interest_prompt
+    array = []
+    5.times do
+      array.push(Interest.all.sample)
+    end  
+    puts "Type a number to chose an Interest"    
+    puts "1. #{array[0].interest_names}"
+    puts "2. #{array[1].interest_names}"
+    puts "3. #{array[2].interest_names}"
+    puts "4. #{array[3].interest_names}"
+    puts "5. #{array[4].interest_names}"
+    puts 'hit "m" for more choices'
+    inp = gets.chomp
+    case inp
+      when "1" 
+        @user.interest_ids = array[0].id
+      when "2"
+        @user.interest_ids = array[1].id
+      when "3"
+        @user.interest_ids = array[2].id
+      when "4"
+        @user.interest_ids = array[3].id
+      when "5"
+        @user.interest_ids = array[4].id
+      else
+        puts "#{inp} is not a valid answer"
+        invalid_response("a number from the list", "second")
+    end
+  end 
+
   def matchmaker
     results = []
     puts "You are now being matched.  Please Wait..."
