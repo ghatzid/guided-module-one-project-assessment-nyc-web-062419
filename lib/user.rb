@@ -10,21 +10,24 @@ class User < ActiveRecord::Base
     CommandLineInterface.logo
     puts "Please choose from the following options:"
     puts "1. View your profile"
-    puts "2. Add interests to your profile" #calls interest_prompt
-    puts "3. View your matches" ### calls matchmaker
-    puts "4. Delete your profile"
-    puts "5. Exit"
+    puts "2. Edit your profile"
+    puts "3. Add interests to your profile" #calls interest_prompt
+    puts "4. View your matches" ### calls matchmaker
+    puts "5. Delete your profile"
+    puts "6. Exit"
     inp = gets.chomp
     case inp
       when "1" 
         list_user_info
       when "2"
-        interest_prompt #Bring over user prompt to user class
+        update_user_info
       when "3"
-        matchmaker #Get matchmaker running here
+        interest_prompt #Bring over user prompt to user class
       when "4"
-        delete_user
+        matchmaker #Get matchmaker running here
       when "5"
+        delete_user
+      when "6"
         exit
       else
         puts "#{inp} is not a valid answer\n"
@@ -42,6 +45,40 @@ class User < ActiveRecord::Base
     main_menu
   end
 
+  def update_user_info
+    puts "What would you like to update?"
+    puts "1. Update name"
+    puts "2. Update age"
+    inp = gets.chomp.downcase
+    if inp == "1"
+      update_name
+    elsif inp == "2"
+      update_age
+    else
+      puts "#{inp} is not a valid answer\n"
+      update_user_info
+    end
+  end
+
+  def update_name
+    puts "Please enter your new name:"
+    inp = gets.chomp
+    self.update(:name => inp)
+    puts "Your name is now #{inp}"
+    puts "Enter any key to return to main menu"
+    gets.chomp
+    main_menu
+  end
+
+  def update_age
+    puts "Please enter your new age:"
+    inp = gets.chomp
+    self.update(:age => inp)
+    puts "Your age is now #{inp}"
+    puts "Enter any key to return to main menu"
+    gets.chomp
+    main_menu
+  end
   
 
   def interest_prompt
